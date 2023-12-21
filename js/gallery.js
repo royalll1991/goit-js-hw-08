@@ -87,37 +87,28 @@ const instance = basicLightbox.create(
   `<img class="big-image" src="" width="1112" height="640">`,
   {
     onShow: () => {
-      document.addEventListener("keydown", onRemoveListener);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          instance.close();
+        }
+      });
     },
     onClose: () => {
-      document.removeEventListener("keydown", onRemoveListener);
+      document.removeEventListener("keydown", (event) => {if (event.key === "Escape") {
+          instance.close();
+        }
+      });
     },
   }
 );
 
-function onRemoveListener(event) {
-  if (event.key === "Escape") {
-    instance.close();
-  }
-}
-const galleryItem = document.querySelectorAll(`.gallery-item`);
-
-
-
-const  galleryLinks = document.querySelectorAll(`.gallery-link`);
- function hrefPreventDefault (event) {
-        event.preventDefault()
-        return
-};
-galleryLinks.forEach(link => {
-    link.addEventListener(`click`, hrefPreventDefault);})
-
-    
    
 const galleryImage = document.querySelectorAll(`.gallery-image`);
 
 gallery.addEventListener("click", (event) => {
-    
+  
+  event.preventDefault();
+
      if (event.target.nodeName !== "IMG") {
         return
      }
